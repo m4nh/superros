@@ -28,6 +28,14 @@ body {
 
 .container .credits {
     position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+    text-align: center;
+    bottom: 27%;
+    padding-left: 30%;
+    font-family: 'Aldrich';
+    opacity: 0.3;
 }
 
 .container .title {
