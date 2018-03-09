@@ -26,6 +26,10 @@ body {
     margin: auto;
 }
 
+.container .credits {
+    position: absolute;
+}
+
 .container .title {
     font-size: 80px;
     position: absolute;
