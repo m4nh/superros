@@ -1,0 +1,17 @@
+<launch>
+
+        <node name="ping" pkg="superros" type="testnode_ping_pong.py">
+            <param name="hz" value="30"/> <!-- Hz -->
+            <param name="enabled" value="true"/> 
+        </node>
+
+        <node name="pong" pkg="superros" type="testnode_ping_pong.py">
+            <param name="hz" value="30"/> <!-- Hz -->
+            <param name="enabled" value="false"/> 
+        </node>
+
+        <node name="plot"
+            pkg="rqt_plot"
+            type="rqt_plot"
+            args="/ping/output /pong/output" />
+</launch>

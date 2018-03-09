@@ -4,6 +4,7 @@
 import rospy
 import inspect
 
+
 class Logger(object):
 
     LOGGER_LEVEL_BASE = 1
