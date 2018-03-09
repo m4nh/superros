@@ -8,6 +8,7 @@ body {
     width: 100%;
     height: 100%;
     background: #867E7C;
+    overflow: hidden;
 }
 
 .container img.robot {
