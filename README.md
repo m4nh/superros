@@ -67,7 +67,8 @@ while not rospy.is_shutdown():
 
 ## TF Transforms made easy
 
-In this example it is clear the benefit of an unified proxy (ie. the *RosNode*) in order to reduce UserApp<->ROS interactions. Moreover, SuperROS uses the robust *PyKDL* library as shared model for 3D Transformations, simplifying code readability and portability.
+
+In this example (a simple TF Listener/Broadcaster with some 3D transformations) it is clear the benefit of an unified proxy (ie. the *RosNode*) in order to reduce UserApp<->ROS interactions. Moreover, SuperROS uses the robust *PyKDL* library as shared model for 3D Transformations, simplifying code readability and portability.
 
 <table >
   <tr>
