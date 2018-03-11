@@ -11,7 +11,7 @@ You can use SuperROS as a classical ROS package or just include the *scripts* fo
 
 ## Basic usage: Publisher/Subscribers
 
-In this simple example we want to design a simple *Amplifier* reading a *Float32* data which is then published (*doubled*) on another topic at a certain frequency.
+In this simple example we want to design a simple *Amplifier* reading a *Float32* data which is then published (*doubled*) on another topic at a certain frequency. Although in this snippet the code reduction is not astonishing, it is a basic example to introduce the Publisher/Subscriber paradigm in SuperROS.
 
 <img style='left:0;right:0;margin:0' width=200 src='https://media.giphy.com/media/229OC7hqUL2gzLwDtO/giphy.gif'/> 
 
