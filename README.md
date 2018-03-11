@@ -70,6 +70,8 @@ while not rospy.is_shutdown():
 
 In this example (a simple TF Listener/Broadcaster with some 3D transformations) it is clear the benefit of an unified proxy (ie. the *RosNode*) in order to reduce UserApp<->ROS interactions. Moreover, SuperROS uses the robust *PyKDL* library as shared model for 3D Transformations, simplifying code readability and portability.
 
+<img style='left:0;right:0;margin:0' width=200 src='https://media.giphy.com/media/w78i2Mzqge1AToxP72/giphy.gif'/> 
+
 <table >
   <tr>
   <th>Super ROS</th>
