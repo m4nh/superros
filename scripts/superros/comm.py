@@ -41,6 +41,8 @@ class RosNode(object):
         # Topics
         self.publishers = {}
         self.subsribers = {}
+        self.subsribers_buffered_data = {}
+        self.subsribers_buffered_data_types = {}
 
         # Services
         self.services = {}
@@ -99,6 +101,27 @@ class RosNode(object):
             msg_type,
             callback,
             queue_size=queue_size
+        )
+        return self.subsribers[topic_name]
+
+    def _subscribersBufferedCallbacks(self, msg, topic_name):
+        self.subsribers_buffered_data[topic_name] = msg
+
+    def getBufferedData(self, topic_name):
+        if topic_name not in self.subsribers_buffered_data_types:
+            return None
+
+        if topic_name not in self.subsribers_buffered_data:
+            return self.subsribers_buffered_data_types[topic_name]()
+        return self.subsribers_buffered_data[topic_name]
+
+    def createBufferedSubscriber(self, topic_name, msg_type):
+        self.subsribers_buffered_data_types[topic_name] = msg_type
+        self.subsribers[topic_name] = rospy.Subscriber(
+            topic_name,
+            msg_type,
+            self._subscribersBufferedCallbacks,
+            topic_name
         )
         return self.subsribers[topic_name]
 
@@ -277,7 +300,7 @@ class RosNode(object):
             parent_frame_id
         )
 
-    def retrieveTransform(self, frame_id, parent_frame_id, time, print_error=False):
+    def retrieveTransform(self, frame_id, parent_frame_id, time=-1, print_error=False):
         """Retrieves a Tf Transform (Frame) from the Tf Tree        
 
         Arguments:
@@ -294,7 +317,8 @@ class RosNode(object):
             time = rospy.Time(0)
 
         try:
-            tf_transform = self.getTFListener().lookupTransform(parent_frame_id, frame_id, time)
+            tf_transform = self.getTFListener().lookupTransform(
+                parent_frame_id, frame_id, time)
             frame = transformations.tfToKDL(tf_transform)
             return frame
         except (tf.ExtrapolationException, tf.LookupException, tf.ConnectivityException) as e:
@@ -369,3 +393,7 @@ class RosNode(object):
         if parameter_name in self._parameters:
             return self._parameters[parameter_name]
         return None
+
+    def await(self):
+        """await for messages until end"""
+        rospy.spin()

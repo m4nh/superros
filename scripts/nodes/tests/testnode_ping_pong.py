@@ -45,7 +45,8 @@ while node.isActive():
 
     # Generates new Float message
     value = Float32()
-    value.data = math.sin(node.getElapsedTimeInSecs() * 2 * math.pi * 0.2 - start_offset)
+    value.data = math.sin(node.getElapsedTimeInSecs() *
+                          2 * math.pi * 0.2 - start_offset)
 
     # Publish if enabled
     if enabled:

@@ -1,4 +1,5 @@
-"""Homogeneous Transformation Matrices and Quaternions."""
+#!/usr/bin/env python
+# -*- encoding: utf-8 -*-
 
 from __future__ import division, print_function
 import math
@@ -13,16 +14,6 @@ from geometry_msgs.msg import Twist
 
 # epsilon for testing whether a number is close to zero
 _EPS = np.finfo(float).eps * 4.0
-
-
-def selfProjection(frame):
-    if isinstance(frame, PyKDL.Frame):
-        newframe = PyKDL.Frame()
-        newframe.p.x(frame.p.x())
-        newframe.p.y(frame.p.y())
-        newframe.p.z(0)
-        return newframe
-    return frame
 
 
 def tfToKDL(tf):
