@@ -11,9 +11,11 @@ You can use SuperROS as a classical ROS package or just include the *scripts* fo
 
 ## Basic usage: Publisher/Subscribers
 
-In this simple example we want to design a simple *Amplifier* reading a *Float32* data which is then published (*doubled*) on another topic at a certain frequency . 
+In this simple example we want to design a simple *Amplifier* reading a *Float32* data which is then published (*doubled*) on another topic at a certain frequency.
 
-<table>
+<img style='left:0;right:0;margin:0' width=200 src='https://media.giphy.com/media/229OC7hqUL2gzLwDtO/giphy.gif'/> 
+
+<table >
   <tr>
   <th>Super ROS</th>
   <th>Plain ROS</th>
@@ -62,3 +64,5 @@ while not rospy.is_shutdown():
 </td>
 </tr>
 </table>
+
+
