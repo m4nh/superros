@@ -243,10 +243,13 @@ class VisualizationScene(object):
                 marker.points.append(p1)
                 marker.points.append(p3)
             else:
-                # pass
-                marker.points.append(p0)
+                p0 = Point()
+                p0.x = 0
+                p0.y = 0
+                p0.z = marker.scale.z-0.00001
                 marker.points.append(p2)
                 marker.points.append(p1)
+                marker.points.append(p0)
 
             theta += delta_theta
 
