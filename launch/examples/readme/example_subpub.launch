@@ -1,0 +1,16 @@
+<launch>
+
+        <node name="example_subpub" pkg="superros" type="example_subpub.py">
+            <param name="hz" value="30"/> <!-- Hz -->
+        </node>
+
+         <node name="math_publisher_sin" pkg="superros" type="math_publisher_sin.py">
+            <param name="hz" value="30"/> <!-- Hz -->
+            <param name="topic_name" value="in" />
+        </node>
+
+        <node name="plot"
+            pkg="rqt_plot"
+            type="rqt_plot"
+            args="/out /in" />
+</launch>

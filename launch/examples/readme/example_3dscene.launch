@@ -1,0 +1,8 @@
+<launch>
+
+        <node name="example_3dscene" pkg="superros" type="example_3dscene.py">
+            <param name="hz" value="30"/> <!-- Hz -->
+        </node>
+
+        <node name="rviz" pkg="rviz" type="rviz" args="-d $(find superros)/rviz/examples/example_3dscene.rviz" />
+</launch>

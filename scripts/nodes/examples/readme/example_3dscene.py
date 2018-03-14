@@ -7,7 +7,7 @@ from superros.draw import VisualizationScene, Color
 import PyKDL
 import math
 
-node = RosNode("draw_test")
+node = RosNode("example_3dscene")
 node.setHz(node.setupParameter("hz", 30))
 
 pub = node.createPublisher("test", MarkerArray)
