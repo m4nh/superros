@@ -243,6 +243,10 @@ class VisualizationScene(object):
                 marker.points.append(p1)
                 marker.points.append(p3)
             else:
+                p0 = Point()
+                p0.x = 0
+                p0.y = 0
+                p0.z = marker.scale.z-0.01
                 marker.points.append(p2)
                 marker.points.append(p1)
                 marker.points.append(p0)
