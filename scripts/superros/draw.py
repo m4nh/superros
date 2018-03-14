@@ -206,9 +206,9 @@ class VisualizationScene(object):
         marker.color.g = color.g
         marker.color.b = color.b
         marker.color.a = color.a
-        marker.scale.x = 1  # scale[0]
-        marker.scale.y = 1  # scale[1]
-        marker.scale.z = 1  # scale[2]
+        marker.scale.x = scale[0]
+        marker.scale.y = scale[1]
+        marker.scale.z = scale[2]
 
         marker.pose = transformations.KDLToPose(transform)
 
@@ -243,6 +243,10 @@ class VisualizationScene(object):
             marker.points.append(p3)
 
             theta += delta_theta
+
+        marker.scale.x = 1
+        marker.scale.y = 1
+        marker.scale.z = 1
 
         self.objects_map[name] = marker
         return marker
