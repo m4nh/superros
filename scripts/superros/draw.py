@@ -196,7 +196,7 @@ class VisualizationScene(object):
         self.objects_map[name] = marker
         return marker
 
-    def createCone(self, name, frame_id='world', transform=PyKDL.Frame(), scale=[1.0, 1.0, 1.0], color=Color(1, 0, 0, 1.0)):
+    def createCone(self, name, frame_id='world', transform=PyKDL.Frame(), scale=[1.0, 1.0, 1.0], color=Color(1, 0, 0, 1.0), void=True):
         marker = VisualizationObject()
         marker.header.frame_id = frame_id
         marker.type = Marker.TRIANGLE_LIST
@@ -236,11 +236,12 @@ class VisualizationScene(object):
             marker.points.append(p1)
             marker.points.append(p2)
 
-            p3 = Point()
-            p3.x = p3.y = p3.z = 0.0
-            marker.points.append(p2)
-            marker.points.append(p1)
-            marker.points.append(p3)
+            if not void:
+                p3 = Point()
+                p3.x = p3.y = p3.z = 0.0
+                marker.points.append(p2)
+                marker.points.append(p1)
+                marker.points.append(p3)
 
             theta += delta_theta
 
