@@ -196,7 +196,7 @@ class VisualizationScene(object):
         self.objects_map[name] = marker
         return marker
 
-    def createCone(self, name, frame_id='world', transform=PyKDL.Frame(), scale=1.0, color=Color(1, 0, 0, 1.0)):
+    def createCone(self, name, frame_id='world', transform=PyKDL.Frame(), scale=[1.0, 1.0, 1.0], color=Color(1, 0, 0, 1.0)):
         marker = VisualizationObject()
         marker.header.frame_id = frame_id
         marker.type = Marker.TRIANGLE_LIST
@@ -206,9 +206,9 @@ class VisualizationScene(object):
         marker.color.g = color.g
         marker.color.b = color.b
         marker.color.a = color.a
-        marker.scale.x = scale
-        marker.scale.y = scale
-        marker.scale.z = scale
+        marker.scale.x = scale[0]
+        marker.scale.y = scale[1]
+        marker.scale.z = scale[2]
 
         marker.pose = transformations.KDLToPose(transform)
 
