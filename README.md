@@ -251,3 +251,39 @@ You can run directly the 3DScene Example with:
 ```bash
 roslaunch superros example_3dscene.launch
 ```
+
+## RGB Camera Example
+
+In this example the simple CameraRGB wrapper is shown. All the original ImageTransport and CvBridge image conversions stuff is hidden behind the simple *CameraRGB* object. With *registerUserCallabck* the user can bind its custom callback function called whenever a new *FrameRGB* is available. The frame contains in *rgb_image* the off-the-shelf numpy matrix representing the image, compliant with the *OpenCV/cv2* library.
+
+
+```python
+from superros.comm import RosNode
+from superros.cameras import CameraRGB
+import cv2
+
+node = RosNode("example_rgbcamera")
+node.setHz(node.setupParameter("hz", 30))
+rgb_topic = node.setupParameter("camera_topic","")
+
+# New Frame callback
+def newFrame(frame):
+    cv2.imshow("image",frame.rgb_image)
+    cv2.waitKey(1)
+
+# Camera Object
+camera = CameraRGB(
+    node,
+    rgb_topic=rgb_topic,
+    compressed_image='compressed'in rgb_topic
+)
+camera.registerUserCallabck(newFrame)
+
+while node.isActive():
+    node.tick()
+``` 
+
+You can run directly the 3DScene Example with:
+```bash
+roslaunch superros example_3dscene.launch
+```
