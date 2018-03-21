@@ -125,6 +125,34 @@ class VisualizationScene(object):
         self.objects_map[name] = marker
         return marker
 
+
+    def createCylinder(self, name, frame_id='world', transform=PyKDL.Frame(), size=[1, 1, 1], color=Color(1, 0, 0, 0.8)):
+        marker = Marker()
+        marker.header.frame_id = frame_id
+        marker.type = Marker.CYLINDER
+        marker.ns = name
+        marker.action = marker.ADD
+        marker.color.r = color.r
+        marker.color.g = color.g
+        marker.color.b = color.b
+        marker.color.a = color.a
+        marker.scale.x = size[0]
+        marker.scale.y = size[1]
+        marker.scale.z = size[2]
+        marker.pose.position.x = transform.p.x()
+        marker.pose.position.y = transform.p.y()
+        marker.pose.position.z = transform.p.z()
+        quat = transform.M.GetQuaternion()
+        marker.pose.orientation.x = quat[0]
+        marker.pose.orientation.y = quat[1]
+        marker.pose.orientation.z = quat[2]
+        marker.pose.orientation.w = quat[3]
+
+        self.objects_map[name] = marker
+        return marker
+
+
+
     def createLineList(self, name, frame_id='world',  thickness=0.01, points=[], color=Color(1, 0, 0, 0.8)):
         """ Creates a LineList Marker """
         marker = Marker()
