@@ -2,9 +2,9 @@
 # -*- encoding: utf-8 -*-
 
 import cv2
-import rospy
 import numpy as np
 import message_filters
+from comm import RosNode
 from sensor_msgs.msg import Image, CameraInfo, CompressedImage
 from cv_bridge import CvBridge, CvBridgeError
 import cv_bridge
@@ -204,10 +204,11 @@ class CameraRGB(Camera):
         self.compressed_image = compressed_image
 
         if compressed_image:
-            self.rgb_sub = rospy.Subscriber(
+
+            self.rgb_sub = node.createSubscriber(
                 self.rgb_topic, CompressedImage, self.topicCallback, queue_size=self.callback_buffer_size)
         else:
-            self.rgb_sub = rospy.Subscriber(
+            self.rgb_sub = node.createSubscriber(
                 self.rgb_topic, Image, self.topicCallback, queue_size=self.callback_buffer_size)
         self._user_callbacks = []
 

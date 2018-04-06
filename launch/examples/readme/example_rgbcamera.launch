@@ -1,0 +1,8 @@
+<launch>
+        <node name="example_rgbcamera" pkg="superros" type="example_rgbcamera.py" output="screen">
+            <param name="hz" value="30"/> <!-- Hz -->
+            <param name="camera_topic" value="/usb_cam_node/image_raw/compressed"/> 
+        </node>
+        
+        <node name="usb_cam_node" pkg="usb_cam" type="usb_cam_node" args="/out /in" />
+</launch>

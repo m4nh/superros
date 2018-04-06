@@ -1,15 +1,30 @@
-# Super ROS
+# Super ROS!
 
 <img src="https://m4nh.github.io/superros/superros.svg" alt="SuperROS" width="300"/>
 
+
+## Table of Contents
+- [Why SuperROS](#whysuperros)
+- [Basic Usage: Publishers/Subscribers](#basicusage)
+- [TF Transformations](#transforms)
+- [3D Scene Visualization](#visualization)
+- [RGB Camera](#rgbcamera)
+ 
+ 
+
+  
+
+<a name="whysuperros" />
 
 ## Why SuperROS?
 
 SuperROS is something "super" (above) the Robot Operating System (<a href='http://www.ros.org/' target="_blank">ROS</a>). First of all, SuperROS allows you to separate your business logic from the ROS framework making more transparent the transition to another *middleware* (e.g. ROS2 in the years to come). But, more importantly, allows you to *Write Less and Do More*.
 
-You can use SuperROS as a classical ROS package or just include the *scripts* folder to your PYTHONPATH. 
+You can use SuperROS as a classical ROS package or just include the *scripts* folder to your PYTHONPATH. If you use it as a ROS package be sure to `catkin_make` it. More generally, to make things work you need ROS installed with the default procedure <a href="http://wiki.ros.org/kinetic/Installation/Ubuntu" target="_blank" >here</a>.
 
-## Basic usage: Publisher/Subscribers
+<a name="basicusage" />
+
+## Basic usage: Publishers/Subscribers
 
 In this simple example we want to design a simple *Amplifier* reading a *Float32* data which is then published (*doubled*) on another topic at a certain frequency. Although in this snippet the code reduction is not astonishing, it is a basic example to introduce the Publisher/Subscriber paradigm in SuperROS.
 
@@ -69,6 +84,7 @@ You can run directly the Amplifier Example with:
 ```bash
 roslaunch superros example_subpub.launch
 ```
+<a name="transforms" />
 
 ## TF Transforms made easy
 
@@ -169,6 +185,7 @@ while not rospy.is_shutdown():
 </tr>
 </table>
 
+<a name="visualization" />
 
 ## 3D Scene Visualization
 
@@ -246,6 +263,44 @@ Ehm...?
 </td>
 </tr>
 </table>
+
+You can run directly the 3DScene Example with:
+```bash
+roslaunch superros example_3dscene.launch
+```
+
+<a name="rgbcamera" />
+
+## RGB Camera
+
+In this example the simple CameraRGB wrapper is shown. All the original ImageTransport and CvBridge image conversions stuff is hidden behind the simple *CameraRGB* object. With *registerUserCallabck* the user can bind its custom callback function called whenever a new *FrameRGB* is available. The frame contains in *rgb_image* the off-the-shelf numpy matrix representing the image, compliant with the *OpenCV/cv2* library.
+
+
+```python
+from superros.comm import RosNode
+from superros.cameras import CameraRGB
+import cv2
+
+node = RosNode("example_rgbcamera")
+node.setHz(node.setupParameter("hz", 30))
+rgb_topic = node.setupParameter("camera_topic","")
+
+# New Frame callback
+def newFrame(frame):
+    cv2.imshow("image",frame.rgb_image)
+    cv2.waitKey(1)
+
+# Camera Object
+camera = CameraRGB(
+    node,
+    rgb_topic=rgb_topic,
+    compressed_image='compressed'in rgb_topic
+)
+camera.registerUserCallabck(newFrame)
+
+while node.isActive():
+    node.tick()
+``` 
 
 You can run directly the 3DScene Example with:
 ```bash
