@@ -98,7 +98,8 @@ class FrameRGBD(FrameRGB):
 
 class Camera(object):
 
-    def __init__(self, configuration_file=None):
+    def __init__(self, node, configuration_file=None):
+        self.node = node
         self.configuration_file = configuration_file
         self.width = 640
         self.height = 480
@@ -161,8 +162,9 @@ class Camera(object):
 
 class CameraRGBD(Camera):
 
-    def __init__(self, configuration_file=None, rgb_topic='', depth_topic='', callback_buffer_size=1, image_callbacks=None, approx_time_sync=0.1):
-        super(CameraRGBD, self).__init__(configuration_file=configuration_file)
+    def __init__(self, node, configuration_file=None, rgb_topic='', depth_topic='', callback_buffer_size=1, image_callbacks=None, approx_time_sync=0.1):
+        super(CameraRGBD, self).__init__(
+            node, configuration_file=configuration_file)
         self.rgb_topic = rgb_topic
         self.depth_topic = depth_topic
         self.callback_buffer_size = callback_buffer_size
@@ -194,8 +196,9 @@ class CameraRGBD(Camera):
 
 class CameraRGB(Camera):
 
-    def __init__(self, configuration_file=None, rgb_topic='', callback_buffer_size=1, compressed_image=False, image_callbacks=None):
-        super(CameraRGB, self).__init__(configuration_file=configuration_file)
+    def __init__(self, node, configuration_file=None, rgb_topic='', callback_buffer_size=1, compressed_image=False, image_callbacks=None):
+        super(CameraRGB, self).__init__(
+            node, configuration_file=configuration_file)
         self.rgb_topic = rgb_topic
         self.callback_buffer_size = callback_buffer_size
         self.compressed_image = compressed_image
