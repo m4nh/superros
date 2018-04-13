@@ -155,7 +155,7 @@ def optimizationRefinementFunction(x, robot_poses, pattern_poses, offset_factor=
                 chessboard_pose.p.y(),
                 chessboard_pose.p.z()
             ]), np.asarray(
-                chessboard_pose.M.GetRPY())*180.0/math.pi))
+                chessboard_pose.M.GetRPY()) * 180.0 / math.pi))
     measurements = np.array(measurements)
 
     vx = np.var(measurements[:, 0])
@@ -175,7 +175,7 @@ def bundleAdjustment(x, mean_chessboard_bose, chessboard_calibrator_undistorted)
         img = chessboard_calibrator_undistorted.images[index]
         img_pts = chessboard_calibrator_undistorted.chessboard_image_points[index]
 
-        num = chessboard_calibrator_undistorted.w*chessboard_calibrator_undistorted.h
+        num = chessboard_calibrator_undistorted.w * chessboard_calibrator_undistorted.h
 
         cv2.drawChessboardCorners(img, (chessboard_calibrator_undistorted.w,
                                         chessboard_calibrator_undistorted.h), img_pts, True)
@@ -329,7 +329,7 @@ ap.add_argument("--save_undistorted", action='store_true')
 ap.add_argument("--compute_extrinsics", action='store_true')
 ap.add_argument("--undistortion_alpha", default=1.0, type=float)
 ap.add_argument('--initial_guess', nargs='*', default=[0.0, 0.0, -0.09, 0.707388044876899, -0.7068249569936026,
-                                                       0.0005628637715330792, 0.0005633121735972125])
+                                                       0.0005628637715330792, 0.0005633121735972125], help="'x y z a b c d'")
 ap.add_argument('--translation_bounds', nargs='*',
                 default=[-0.3, 0.3, -0.3, 0.3, -0.3, 0.3])
 
@@ -340,7 +340,6 @@ ap.add_argument('--optimization_debug', default=0, type=int)
 
 
 args = vars(ap.parse_args())
-
 
 #######################################
 # Creates Calibrator
@@ -378,7 +377,7 @@ if len(chessboard_calibrator.images) == 0:
 #######################################
 # Calibrate
 #######################################
-cprint("{}\n Calibration...\n {}".format("="*50, "="*50), color="yellow")
+cprint("{}\n Calibration...\n {}".format("=" * 50, "=" * 50), color="yellow")
 sp = Spinner()
 chessboard_calibrator.calibrate(
     undistortion_alpha=args['undistortion_alpha']
@@ -396,7 +395,7 @@ np.set_printoptions(precision=6, suppress=True, linewidth=np.inf)
 reference_image = chessboard_calibrator.images[0]
 first_color = "red"
 separator_width = 50
-cprint("First Calibration {}".format("="*separator_width), first_color)
+cprint("First Calibration {}".format("=" * separator_width), first_color)
 
 cprint("\nCamera Matrix", first_color)
 print(chessboard_calibrator.camera_matrix)
@@ -411,7 +410,7 @@ print(np.array2string(singleRowPrint(reference_image, chessboard_calibrator.came
 printArrow()
 
 first_color = "green"
-cprint("\nRefined Calibration {}".format("="*separator_width), first_color)
+cprint("\nRefined Calibration {}".format("=" * separator_width), first_color)
 
 cprint("\nCamera Matrix", first_color)
 print(chessboard_calibrator.camera_matrix_refined)
@@ -470,7 +469,7 @@ if args['compute_extrinsics']:
         chessboard_calibrator_undistorted.consumeImage(uimg)
 
     cprint("{}\n Compute Chessboard Poses...\n {}".format(
-        "="*50, "="*50), color="yellow")
+        "=" * 50, "=" * 50), color="yellow")
     sp = Spinner()
     chessboard_calibrator_undistorted.calibrate()
     sp.stop()
@@ -481,15 +480,17 @@ if args['compute_extrinsics']:
     chessboard_calibrator.setRobotPoses(robot_poses)
     chessboard_calibrator_undistorted.setRobotPoses(robot_poses)
 
-    initial_guess = np.array(
-        #[0.138465, -0.001308, -0.164206, -1.676834, 1.721383, 0.024899, -0.053322]
-        #[0.141472,-0.003309,-0.167088,-1.676989, 1.721503, 0.032095,-0.054912]
-        [0.141472, -0.003309, -0.167088, -1.676989, 1.721503, 0.032095, -0.054912]
-    )
+    # initial_guess = np.array(
+    #     #[0.138465, -0.001308, -0.164206, -1.676834, 1.721383, 0.024899, -0.053322]
+    #     #[0.141472,-0.003309,-0.167088,-1.676989, 1.721503, 0.032095,-0.054912]
+    #     [0.141472, -0.003309, -0.167088, -1.676989, 1.721503, 0.032095, -0.054912]
+    # )
+
+    initial_guess = np.array(args['initial_guess'][0].split(" "), dtype=float)
 
     initial_guess_frame = KDLFromArray(initial_guess)
     print("INITIAL GUESS", np.asarray(
-        initial_guess_frame.M.GetRPY())*180.0/math.pi)
+        initial_guess_frame.M.GetRPY()) * 180.0 / math.pi)
 
     print("VERIFICATION")
     measurements = []
@@ -551,7 +552,7 @@ if args['compute_extrinsics']:
         print("Minimization", x)
 
     cprint("{}\n Exstrinsics Computation...\n {}".format(
-        "="*50, "="*50), color="yellow")
+        "=" * 50, "=" * 50), color="yellow")
 
     cprint("Initial Guess: {}".format(x0), 'blue')
     cprint("Bounds: {}".format(bounds), 'blue')
@@ -571,7 +572,7 @@ if args['compute_extrinsics']:
     sp.stop()
 
     first_color = "blue"
-    cprint("\nExtrinsics {}".format("="*separator_width), first_color)
+    cprint("\nExtrinsics {}".format("=" * separator_width), first_color)
     cprint("\nCamera Frame: [X,Y,Z,QX,QY,QZ,QW]", first_color)
     print(np.array2string(res.x, separator=","))
 
