@@ -328,8 +328,8 @@ ap.add_argument("--chessboard_square_size", default=0.0261, type=float)
 ap.add_argument("--save_undistorted", action='store_true')
 ap.add_argument("--compute_extrinsics", action='store_true')
 ap.add_argument("--undistortion_alpha", default=1.0, type=float)
-ap.add_argument('--initial_guess', nargs='*', default=[0.0, 0.0, -0.09, 0.707388044876899, -0.7068249569936026,
-                                                       0.0005628637715330792, 0.0005633121735972125], help="'x y z a b c d'")
+ap.add_argument('--initial_guess', nargs='*',
+                default="0 0 0 0 0 0 1", help="'x y z qx qy qz qw'")
 ap.add_argument('--translation_bounds', nargs='*',
                 default=[-0.3, 0.3, -0.3, 0.3, -0.3, 0.3])
 
@@ -486,7 +486,7 @@ if args['compute_extrinsics']:
     #     [0.141472, -0.003309, -0.167088, -1.676989, 1.721503, 0.032095, -0.054912]
     # )
 
-    initial_guess = np.array(args['initial_guess'][0].split(" "), dtype=float)
+    initial_guess = np.array(args['initial_guess'].split(" "), dtype=float)
 
     initial_guess_frame = KDLFromArray(initial_guess)
     print("INITIAL GUESS", np.asarray(
