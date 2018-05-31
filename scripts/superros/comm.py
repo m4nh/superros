@@ -205,8 +205,8 @@ class RosNode(object):
         try:
             proxy = rospy.ServiceProxy(service_name, srv_type)
             return proxy
-        except rospy.ServiceException, e:
-            print ("Service call failed:", e)
+        except rospy.ServiceException as e:
+            print("Service call failed:", e)
             return None
 
     def _sleep(self):
