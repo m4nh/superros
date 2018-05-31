@@ -321,8 +321,10 @@ class ChessboardCalibrator(object):
 #######################################
 ap = argparse.ArgumentParser()
 ap.add_argument("--image_folder", required=True, help="Image Folder")
+# ap.add_argument("--create_output_files", default="",
+#                 help="List of file type (comma-separated). Avaiable: txt,yml") #TODO
 ap.add_argument("--image_extension", default='png', type=str)
-ap.add_argument("--output_folder", default='', type=str)
+ap.add_argument("--output_folder", default='/tmp/calibration_output', type=str)
 ap.add_argument("--chessboard_size", default='6x9', type=str)
 ap.add_argument("--chessboard_square_size", default=0.0261, type=float)
 ap.add_argument("--save_undistorted", action='store_true')
@@ -367,6 +369,7 @@ for i, fname in enumerate(images_files):
     if chessboard_calibrator.consumeImage(img) is None:
         discarded.append(i)
 
+print("DIscarded images:", len(discarded))
 #######################################
 # Images check
 #######################################
@@ -436,8 +439,11 @@ printArrow()
 
 # cv2.waitKey(0)
 
-
 output_folder = args['output_folder']
+
+if not os.path.exists(output_folder):
+    os.makedirs(output_folder)
+
 if args['save_undistorted'] and len(output_folder) > 0:
     chessboard_calibrator.saveUndistortedImages(
         output_folder,
@@ -466,6 +472,7 @@ if args['compute_extrinsics']:
     #######################################
     chessboard_calibrator_undistorted = ChessboardCalibrator(w, h, sqs)
     for uimg in chessboard_calibrator.undistored_images:
+        # for uimg in chessboard_calibrator.images:
         chessboard_calibrator_undistorted.consumeImage(uimg)
 
     cprint("{}\n Compute Chessboard Poses...\n {}".format(
@@ -485,8 +492,7 @@ if args['compute_extrinsics']:
     #     #[0.141472,-0.003309,-0.167088,-1.676989, 1.721503, 0.032095,-0.054912]
     #     [0.141472, -0.003309, -0.167088, -1.676989, 1.721503, 0.032095, -0.054912]
     # )
-
-    initial_guess = np.array(args['initial_guess'].split(" "), dtype=float)
+    initial_guess = np.array(args['initial_guess'][0].split(" "), dtype=float)
 
     initial_guess_frame = KDLFromArray(initial_guess)
     print("INITIAL GUESS", np.asarray(
